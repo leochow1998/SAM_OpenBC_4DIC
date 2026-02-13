@@ -1,0 +1,93 @@
+#### mark down the changed made due to changing the yBL to 
+# open boundary condition for gravity wave
+
+1. main_new.f90:
+1.1. added parameter doopeny (logical): check the condition to use open yBL
+     if doopeny, dowally = .true.
+     then modify all dowally conditions
+1.2. call subroutine exchange_bl after boundaries(0) to replace the 
+     v at the northmost grid with the backup v
+     p.s. originally, the code just use PBC to fill up the northmost grid
+          using the southmost grid
+     p.s2. after the boundaries(0), the script surface() need to use the 
+           v at the northmost for second order differencing
+1.3. zeroout all the backup fields for next timestep before updating the
+     AB-scheme indices
+1.4  at the begining of each ncycle, back up the prognostic variables
+     and shift the ncurr and nprev indices
+
+2. params.f90: 
+added definition of parameter: doopeny (logical) = .false.
+
+3. vars.f90: (vars_new2.f90 for temparary testing)
+3.1. defining variable: vnorthmost (real)
+     to back up the v at the current timestep at the northmost grid
+3.2. defining variable: dvdtnorthmost (real)
+     to backup the dvdt at the current timestep at the northmost grid
+3.3. defining variable: ubackup, vbackup, wbackup (real)
+     to backup the u,v,w at the current timestep
+     before updating it at the adams.f90 to the next timestep
+
+3. damping_lateral.f90:
+seperately treat the damping of v at y = nyp1 (northmost grid cell for v 
+in Arakawa C grid, if no MPI), assuming the damping coefficient at y=nyp1 is equal
+to that at y=nyp1. damp the dvdt(nx,nyp1,nzm,na) by 
+Ry(i,ny,k) * v(i,nyp1,k)
+(here, we retain the lateral damping at the y BLs)
+
+4. damping.f90:
+for verical damping gravity wave reflection at the top of the model, 
+seperately treat the damping of v at y = nyp1 (northmost grid for v in 
+Arakawa C grid, if no MPI), damp the dvdt(i,ny+1,k,na) by the same 
+amount with other grids
+(here, we retain the vertical damping at the y BLs)
+
+5. advect_mom.f90 (advect_mom_new.f90)
+add the advection of nonnormal momentum along y direction, i.e. 
+py(vu) and py(vw) at the southmost and the northmost grid
+by calling advection_nonnormal_momentum in module open_boundary_y.f90.
+P.s. the idea of doing this is we keep the consistancy of the previous code, 
+     which is to advect the momentum using 2nd order advection scheme. However,
+     we replace the dudt and dwdt with that before the advection of momentum in
+     y dir by backing up the previous values, and seperately calculate the
+     advection of momentum at the y BLs (southmost and northmost) by ourselves
+
+In pressure_big.f90
+6. press_rhs.f90 (press_rhs_new.f90)
+6.1. read from the backup of dvdt at the northmost and southmost boundary to
+     overwrite the effect of the original wall yBL
+6.2. compute the open y boundary condition at the northmost and the southmost
+     boundary, backup the values to dvdtnorthmost and dvdtsouthmost
+
+7. press_grad.f90 (press_grad_new.f90)
+read from the backup of dvdt at the northmost and southmost y boundary to 
+overwrite the effect of the original wall yBC
+
+8. adams.f90
+8.1. seperately compute the v at the next timestep at the northmost y boundary,
+     for the southmost boundary, the v and dvdt(i,1,k,na) already contains the 
+     necessary information (damping effect) for computation
+8.2. backup the current timestep u,v,w to ubackup,vbackup,wbackup
+
+9. advect_all_scalars.f90
+backup the scalars to scalarbackup, seperately compute the advection of scalars
+using second order upwind scheme in open_boundary_y, then replace the value of 
+y = 1 and y = ny in the scalars
+scalars: t, micro_fields, sgs_fields
+
+10. uvw.f90
+seperately restore the v at ny+1 from dimensionless form to that
+obtained by the open boundary condition
+
+11. kunurt.f90 (kunurt_new.f90): debug only
+print out the maximum w, horizontal wind, and the corresponding counurt number
+for stability check
+
+12. setparm.f90 (setparm_new.f90):
+add the doopeny options to the NAMELIST
+
+13. params.f90 (params_new.f90):
+define doopeny and initialize it as .false.
+
+14. printout.f90 (printout_new.f90):
+printout the doopeny value for checking

@@ -1,0 +1,76 @@
+This txt outlined the change to the SAM 6.10.4 source code
+since 2023-03-27
+with an aim to let SAM read 4D data from CAM history file output
+in order to initialize the run
+
+----------------------------------------------------------------------
+plan 1 (20230328)
+1. set the snd file to an average of z, p, tp, q values from the CAM data,
+   and the u, v to 0
+   (need to check whether u0 and v0, ug0, vg0 are used apart from nudging)
+2. set the grd file to be the corresponding height value
+   of the pressure level of CAM at the initial timestep
+3. add the read CAM 3D data after initialize 3D initial condition in
+   file: setdata.f90
+4. run SAM
+
+or 
+plan 2
+1. run the SAM with snd file z, p, tp, q values from the CAM data
+   and the u, v setted to 0, with the grd file to be the 
+   corresponding height value of the pressure level in CAM
+2. archive the restart file
+3. after read_all(), diagnose(), setparm(), add a file to replace
+   3D variables in SAM to be the output from CAM
+4. run SAM
+(p.s the diagnose() subroutine computes the vertical profile by area averaging
+ across the whole domain (Cartecian coordinate, so just sum and divide by num. of grids))
+
+comments: (leo, 20230329)
+as plan 2 also use a domain average to compute the vertical profiles,
+plan 1 provide a larger flexibility, and therefore plan 1 is prefered 
+
+----------------------------------------------------------------------
+adopted plan (20230509)
+1. add the read CAM 3d data after initialize 3Dinitial condition and
+microphysics variables in file setdata.f90 and microphysics.f90
+(the file is named read4dcaminput.f90)
+2. recompute the diagnostic profiles related to the microphysics variables
+
+added the namelist variables docam4diopdata at the back of the namelist PARAMETERS
+
+initialize the namelist variable docam4diopdata in grid.f90
+
+add the call read4dcaminput.f90 after micro_init and microphyscics diagnostic profile calculation
+in setdata.f90, and recompute the microphysics diagnostic profiles
+
+debug completed, successfully build (20230509)
+
+add the iopfile4d character variables to the grid.f90,
+and the iopfile4d namelist variables to the PARAMETERS namelist in setparm.f90
+
+debug completed, successfully build (20230509)
+
+added case(3) in simple_ocean.f90, which is Qobs10 profile
+debug completed, successfully build (20230510)
+haven't check whether the answer of the sst is correct
+
+modified the domain size to 9720 * 2500 * 28
+
+20230523
+in rad.f90, add dummyTauAerosolLW = 0. before rrtmg_lw to zero out the aerosol cloud effect on radiation
+in rad,f90, add dummyAerosolProps = 0. and dummyAerosolProps2 = 0. before rrtmg_sw to zero out the aerosol cloud effect on shout wave radiation
+in order to match the change in CAM RRTM scripts
+
+20230629
+modified read4dcaminput.f90 to send variables from rank=0 to subranks
+modified the domain size to 9720 * 2160 * 28
+
+20230914
+added parameters in NAMELIST: (setparm.f90 (setparm_new.f90))
+1. dodampinglateral: logical to do lateral damping along y boundary or not
+2. micro_out_freq: control the output frequency of hydrometer species (except Qv),
+   to be # times of nsave3D
+3. micro_nx_out: logical to control whether to output the hydrometer concentration N*
+added the corresponding variables in params.f90
+edited the printout.f90 (printout_new.f90) for checking

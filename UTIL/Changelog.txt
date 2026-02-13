@@ -1,0 +1,23 @@
+20230601
+
+the com3D2nc NF_CREATE uses NF_CLOBBER (default) as the CMODE (version of the
+nc file create), which the default is netcdf3-CLASSIC
+in NETCDF3-CLASSIC, only one variable can exceed 2GiB in size, so only the
+first variable in the com3D file (U wind) is written to nc file
+
+to change this behavior, the com3D2nc_new.f file is written, with
+NF_CREATE(PATH, NF_NETCDF4, ...), so as to change the nc file format to
+netcdf4, which has unlimited max file size and max number of fixed vars
+
+therefore, the netcdf-c and netcdf-fortran installed need to support netcdf4,
+with HDF5 support
+
+reference:
+NF_CREATE explanation:
+https://docs.unidata.ucar.edu/netcdf-fortran/current/nc_f77_interface_guide.html#f77_Datasets
+Support to very large varaibles for different file format:
+https://docs.unidata.ucar.edu/nug/current/file_structure_and_performance.html#:~:text=The%20maximum%20size%20of%20a%20record%20in%20the%20classic%20format,size%20for%20the%20classic%20formats.
+
+20230701
+in 2Dcom2nc, change the NF_CLOBBER to NF_NETCDF4 to allow larger than 2GB
+output
