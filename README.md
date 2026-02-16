@@ -10,6 +10,6 @@ Caution: This version of SAM is only tested with the configuration stated in the
 
 Data used to initialize the SAM experiment in Chow et al. (2026): 
 
-## To cite this repository:
+**To cite this repository:**
 Paper: Chow et al. (2026) (Chow, T. N., C. Y. Tam, and T. S. E. Chung, 2026: Investigating Convective Influences on Tropical Cyclone Genesis in a Super-parameterized General Circulation Model Aquaplanet Experiment. Journal of Atmosphertic Science (in preperation)
 Software: 
