@@ -1,0 +1,120 @@
+&SGS_TKE
+ dosmagor	= .true.,
+/
+
+&MICRO_M2005 
+ doicemicro     = .ture.,
+ dograupel      = .true.,
+ dopredictNc    = .false.,
+ Nc0            = 100., 
+/
+
+&PARAMETERS
+
+ nrestart = 0
+
+ caseid ='9720x2160x28_4km_4km_10s_CRM',
+ nrestart_skip = 5
+
+ CEM = .true.,
+ OCEAN = .true.,
+
+ dowallx        = .false.,
+ dowally        = .true.,
+ doopeny        = .true.,
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ dodampinglateral = .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true., 
+ dolongwave	= .true.,
+ doshortwave	= .true.,
+ dosurface 	= .true.,
+ dolargescale 	= .false.,
+ doradforcing   = .false.,
+ dosfcforcing   = .false.,
+ docoriolis 	= .true.,
+ docoriolisz    = .true.,
+ dofplane       = .false.,
+ doperpetual    = .false.,
+ dosolarconstant = .false.,
+ doseasons      = .false.,
+ doradlon       = .true.,
+ doradlat       = .true.,
+ donudging_uv   = .false.,
+ donudging_tq   = .false.,
+
+ docam4diopdata = .true.,
+ iopfile4d = 'Qobs10_init_new.cam.h0.0001-03-29-00000_sam_2160_xsmoothgs.nc'
+
+ ocean_type = 4
+
+ SFC_FLX_FXD    = .false.,
+ SFC_TAU_FXD    = .false.,
+
+ dx = 	4000.,
+ dy = 	4000.,
+ dt = 	10.,
+
+ latitude0= 27.62629247015741,
+ longitude0=180.,
+! solar_constant = 1364.86474609,
+! zenith_angle = 23.5
+
+ day0=171,
+ nrad = 30,
+ nxco2 = 1.0338028169014084,
+ doisccp=.false.,
+ domodis=.false.,
+ domisr=.false.,
+
+ perturb_type = 7
+
+ nstop 		= 8640,
+ nprint 	= 180,
+ nstat 		= 30,
+ nstatfrq 	= 1,
+
+ doSAMconditionals = .false.
+ dosatupdnconditionals = .false.
+
+
+ nsave2D	= 360,
+ nsave2Dstart	= 0,
+ nsave2Dend	= 99960480,
+ save2Dsep      = .true.
+ save2Davg      = .false.
+
+ nsave3D	= 360,
+ nsave3Dstart	= 0,
+ nsave3Dend	= 99960480,
+ save3Dsep      = .true.
+ micro_out_freq = 3
+ micro_nx_out   = .false.
+
+ nstatmom       = 360,
+ nstatmomstart  = 99998640,
+ nstatmomend    = 99960480,
+ savemombin = .false.,
+ savemomsep = .true.
+
+ nmovie       = 180 
+ nmoviestart  = 99960480
+ nmovieend    = 99960480
+
+/ 
+
+
+
+&MOVIES
+
+u_min = -20., u_max=20.
+v_min = -20., v_max=20.
+tasfc_min = 295., tasfc_max=303.
+qvsfc_min = 0.015, qvsfc_max=0.02
+
+/
+
+
+
