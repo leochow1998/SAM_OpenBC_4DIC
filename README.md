@@ -11,6 +11,7 @@ This is a modified version of System for Atmospheric Modeling version 6.10.4 (SA
 **Caution**: This version of SAM is only tested with the configuration stated in the paper. Therefore, the author do not gurantee the code will run in other configurations and settings. 
 
 ### Data:
+Namelist files are stored in `Qobs10_SAM.000`. <br/>
 Since the data used for initializing SAM in the paper is too large in size, please send an email to Leo Chow (leonardochow1998@link.cuhk.edu.hk) if you want to obtain a copy of it.
 
 ### To cite this repository:
