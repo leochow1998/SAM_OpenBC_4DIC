@@ -18,4 +18,4 @@ Due to the large size of the initialization data used in the paper, please conta
 
 ### To cite this repository:
 Paper: Chow et al. (2026) (Chow, T. N., C. Y. Tam, and T. S. E. Chung, 2026: Investigating Convective Influences on Tropical Cyclone Genesis in a Super-parameterized General Circulation Model Aquaplanet Experiment. *Journal of Atmosphertic Science*, (in preperation). <br/>
-Software: [![DOI](https://zenodo.org/badge/1155858269.svg)](https://doi.org/10.5281/zenodo.18653589) Chow et al. (2026) (Chow, T. N., C. Y. Tam, and T. S. E. Chung, 2026: SAM-OpenBC-4DIC:  System for Atmospheric Modeling with Open Boundary Conditions and 4D Initialization (Version 6.10.4.1). Zenodo, [http://doi.org/10.5281/zenodo.18653590](http://doi.org/10.5281/zenodo.18653590)
+Software: [![DOI](https://zenodo.org/badge/1155858269.svg)](https://doi.org/10.5281/zenodo.18653589) Chow, T. N., C. Y. Tam, and T. S. E. Chung, 2026: SAM-OpenBC-4DIC:  System for Atmospheric Modeling with Open Boundary Conditions and 4D Initialization (Version 6.10.4.1). Zenodo, [http://doi.org/10.5281/zenodo.18653590](http://doi.org/10.5281/zenodo.18653590)
