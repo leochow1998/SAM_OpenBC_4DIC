@@ -1,4 +1,4 @@
-# SAM_OpenBC_4DIC - System for Atmospheric Modeling, with open boundary condition and 4D initialization
+# SAM-OpenBC-4DIC - System for Atmospheric Modeling, with open boundary condition and 4D initialization
 Author: Leo Chow - leonardochow1998@link.cuhk.edu.hk <br/>
 Date: 2026-02-16
 
